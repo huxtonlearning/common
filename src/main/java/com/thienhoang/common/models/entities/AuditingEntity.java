@@ -10,7 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @MappedSuperclass
 @Setter
 @Getter
-public class AuditingData {
+public class AuditingEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

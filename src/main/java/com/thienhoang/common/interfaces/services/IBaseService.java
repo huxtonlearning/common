@@ -14,7 +14,6 @@ public interface IBaseService<E, ID, RES, REQ>
   }
 
   @Override
-  //  @SuppressWarnings("unchecked")
   default JpaSpecificationExecutor<E> getSpecificationExecutor() {
     return getRepository();
   }
