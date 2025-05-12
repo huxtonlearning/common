@@ -1,6 +1,5 @@
 package com.thienhoang.common.config.web.interceptors.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thienhoang.common.config.web.interceptors.IInterceptor;
 import com.thienhoang.common.services.ElkService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,8 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 @RequiredArgsConstructor
 public class LogInterceptor implements IInterceptor {
-
-  private final ObjectMapper objectMapper = new ObjectMapper();
 
   private final ElkService elkService;
 
