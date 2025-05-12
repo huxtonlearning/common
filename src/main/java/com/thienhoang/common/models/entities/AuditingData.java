@@ -1,7 +1,7 @@
 package com.thienhoang.common.models.entities;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,7 +21,7 @@ public class AuditingData {
   @Column(nullable = false)
   private Long modifierId;
 
-  @CreationTimestamp private Timestamp createdAt;
-  @UpdateTimestamp private Timestamp modifiedAt;
+  @CreationTimestamp private LocalDateTime createdAt;
+  @UpdateTimestamp private LocalDateTime modifiedAt;
   private boolean isDeleted = false;
 }

@@ -1,6 +1,6 @@
-package com.thienhoang.common.specifications.api;
+package com.thienhoang.common.interfaces.api;
 
-import com.thienhoang.common.specifications.services.*;
+import com.thienhoang.common.interfaces.services.*;
 
 /**
  * Interface định nghĩa chuẩn RESTful cho các controller CRUD (Create, Read, Update, Delete). Có thể

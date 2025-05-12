@@ -1,4 +1,4 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.services;
 
 /**
  * Giao diện chuẩn hóa cho thao tác CRUD, có thể tái sử dụng cho nhiều entity khác nhau.

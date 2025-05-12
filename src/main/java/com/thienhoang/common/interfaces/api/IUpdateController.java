@@ -1,7 +1,7 @@
-package com.thienhoang.common.specifications.api;
+package com.thienhoang.common.interfaces.api;
 
+import com.thienhoang.common.interfaces.services.IUpdateService;
 import com.thienhoang.common.models.HeaderContext;
-import com.thienhoang.common.specifications.services.IUpdateService;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

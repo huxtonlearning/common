@@ -1,4 +1,4 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.services;
 
 import com.thienhoang.common.models.HeaderContext;
 import org.apache.logging.log4j.util.TriConsumer;

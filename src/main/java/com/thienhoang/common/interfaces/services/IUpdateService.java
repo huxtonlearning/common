@@ -1,5 +1,6 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.services;
 
+import com.thienhoang.common.interfaces.repositories.IJpaRepositoryProvider;
 import com.thienhoang.common.models.HeaderContext;
 import com.thienhoang.common.utils.FnCommon;
 import com.thienhoang.common.utils.GenericTypeUtils;
@@ -27,6 +28,7 @@ public interface IUpdateService<E, ID, RES, REQ>
       QuadConsumer<HeaderContext, ID, E, REQ> validationHandler,
       TriConsumer<HeaderContext, E, REQ> mappingHandler,
       BiConsumer<HeaderContext, E> mappingAuditingHandler,
+      QuadConsumer<HeaderContext, E, ID, REQ> postHandler,
       BiFunction<HeaderContext, E, RES> mappingResponseHandler) {
     E entity = getEntityById(context, id); // Lấy entity từ DB, nếu không có thì ném lỗi 404
 
@@ -57,7 +59,8 @@ public interface IUpdateService<E, ID, RES, REQ>
         this::validateUpdateRequest,
         this::mappingUpdateEntity,
         this::mappingUpdateAuditingEntity,
-        this::mapResponse);
+        this::postHandler,
+        this::mappingResponse);
   }
 
   // Validate mặc định khi update
@@ -73,4 +76,6 @@ public interface IUpdateService<E, ID, RES, REQ>
       GenericTypeUtils.updateData(entity, "modifierId", context.getUserId());
     }
   }
+
+  default void postHandler(HeaderContext context, E entity, ID id, REQ request) {}
 }

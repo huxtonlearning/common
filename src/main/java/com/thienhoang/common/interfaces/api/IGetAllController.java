@@ -1,14 +1,13 @@
-package com.thienhoang.common.specifications.api;
+package com.thienhoang.common.interfaces.api;
 
+import com.thienhoang.common.interfaces.services.IGetAllService;
 import com.thienhoang.common.models.HeaderContext;
 import com.thienhoang.common.models.values.response.PageResponse;
-import com.thienhoang.common.specifications.services.IGetAllService;
 import com.thienhoang.common.utils.ParamsKeys;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,13 +50,17 @@ public interface IGetAllController<E, RES> {
   default PageResponse<RES> getAll(
       @Parameter(hidden = true) HeaderContext context,
       @RequestParam(required = false, name = "search") String search,
-      @Parameter(hidden = true) Pageable pageable,
+      @RequestParam(required = false, name = "page", defaultValue = "20") Integer page,
+      @RequestParam(required = false, name = "page_size", defaultValue = "20") Integer pageSize,
+      @RequestParam(required = false, name = "sort") String sort,
+      //      @Parameter(hidden = true) Pageable pageable,
       @RequestParam(required = false, name = "filter") String filter) {
 
     if (getGetAllService() == null) {
       return null;
     }
 
-    return new PageResponse<>(getGetAllService().getAll(context, search, pageable, filter));
+    return new PageResponse<>(
+        getGetAllService().getAll(context, search, page, pageSize, sort, filter));
   }
 }

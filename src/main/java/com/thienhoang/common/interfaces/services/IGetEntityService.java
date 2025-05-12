@@ -1,5 +1,6 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.services;
 
+import com.thienhoang.common.interfaces.repositories.IJpaRepositoryProvider;
 import com.thienhoang.common.models.HeaderContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

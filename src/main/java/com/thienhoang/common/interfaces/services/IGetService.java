@@ -1,5 +1,6 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.services;
 
+import com.thienhoang.common.interfaces.repositories.IJpaRepositoryProvider;
 import com.thienhoang.common.models.HeaderContext;
 
 public interface IGetService<E, ID, RES>
@@ -10,6 +11,6 @@ public interface IGetService<E, ID, RES>
 
     E entity = getEntityById(context, id);
 
-    return mapResponse(context, entity);
+    return mappingResponse(context, entity);
   }
 }

@@ -1,11 +1,12 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.services;
 
+import com.thienhoang.common.interfaces.repositories.IBaseRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface IBaseService<E, ID, RES, REQ>
     extends ICrudService<E, ID, RES, REQ>, IGetAllService<E, RES> {
-  JpaRepository<E, ID> getRepository();
+  IBaseRepository<E, ID> getRepository();
 
   @Override
   default JpaRepository<E, ID> getJpaRepository() {
@@ -13,8 +14,8 @@ public interface IBaseService<E, ID, RES, REQ>
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  //  @SuppressWarnings("unchecked")
   default JpaSpecificationExecutor<E> getSpecificationExecutor() {
-    return (JpaSpecificationExecutor<E>) getRepository();
+    return getRepository();
   }
 }

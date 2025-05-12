@@ -1,4 +1,4 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

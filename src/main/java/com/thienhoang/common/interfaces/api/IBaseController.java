@@ -1,8 +1,8 @@
-package com.thienhoang.common.specifications.api;
+package com.thienhoang.common.interfaces.api;
 
-import com.thienhoang.common.specifications.services.IBaseService;
-import com.thienhoang.common.specifications.services.ICrudService;
-import com.thienhoang.common.specifications.services.IGetAllService;
+import com.thienhoang.common.interfaces.services.IBaseService;
+import com.thienhoang.common.interfaces.services.ICrudService;
+import com.thienhoang.common.interfaces.services.IGetAllService;
 
 public interface IBaseController<E, ID, RES, REQ>
     extends IGetAllController<E, RES>, ICrudController<E, ID, RES, REQ> {

@@ -1,4 +1,4 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.services;
 
 import com.thienhoang.common.models.HeaderContext;
 import com.thienhoang.common.utils.*;
@@ -145,7 +145,9 @@ public interface IGetAllService<E, RES> {
   default Page<RES> getAll(
       HeaderContext context,
       String search,
-      Pageable pageable,
+      Integer page,
+      Integer pageSize,
+      String sort,
       String filter,
       BiFunction<HeaderContext, E, RES> mappingResponseHandler) {
     Map<String, Object> filterMap = new HashMap<>();
@@ -158,15 +160,23 @@ public interface IGetAllService<E, RES> {
       }
     }
 
+    Pageable pageable = PageableUtils.convertPageable(page, pageSize, sort);
+
     Page<E> data =
         getSpecificationExecutor().findAll(buildQuery(context, search, filterMap), pageable);
 
     return data.map(item -> mappingResponseHandler.apply(context, item));
   }
 
-  default Page<RES> getAll(HeaderContext context, String search, Pageable pageable, String filter) {
+  default Page<RES> getAll(
+      HeaderContext context,
+      String search,
+      Integer page,
+      Integer pageSize,
+      String sort,
+      String filter) {
 
-    return getAll(context, search, pageable, filter, this::mappingPageResponse);
+    return getAll(context, search, page, pageSize, sort, filter, this::mappingPageResponse);
   }
 
   default RES mappingPageResponse(HeaderContext context, E item) {

@@ -15,7 +15,6 @@ public class LogInterceptor implements IInterceptor {
       HttpServletRequest request, HttpServletResponse response, Object handler) {
     request.getMethod();
 
-    log.info("**************" + request.getRequestURI());
     return true;
   }
 }

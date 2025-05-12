@@ -1,7 +1,7 @@
-package com.thienhoang.common.specifications.api;
+package com.thienhoang.common.interfaces.api;
 
+import com.thienhoang.common.interfaces.services.IGetService;
 import com.thienhoang.common.models.HeaderContext;
-import com.thienhoang.common.specifications.services.IGetService;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

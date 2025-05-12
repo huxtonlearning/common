@@ -1,5 +1,6 @@
-package com.thienhoang.common.specifications.services;
+package com.thienhoang.common.interfaces.services;
 
+import com.thienhoang.common.interfaces.repositories.IJpaRepositoryProvider;
 import com.thienhoang.common.models.HeaderContext;
 import com.thienhoang.common.utils.FnCommon;
 import com.thienhoang.common.utils.GenericTypeUtils;
@@ -59,7 +60,7 @@ public interface ICreateService<E, ID, RES, REQ>
         this::mappingCreateEntity,
         this::mappingCreateAuditingEntity,
         this::postCreateHandler,
-        this::mapResponse);
+        this::mappingResponse);
   }
 
   /** Hàm validate mặc định (không làm gì) — override trong implementation nếu cần. */
