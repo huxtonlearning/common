@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'maven-publish'
+}
+group = 'com.thienhoang'
+version = '1.0.2'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = 'common' // Replace with your artifact ID
+        }
+    }
+//    repositories {
+//        maven {
+//            name = "GitLab"
+//            url = uri("https://gitlab.com/api/v4/projects/68737130/packages/maven")
+//            credentials(HttpHeaderCredentials) {
+//                name = "Private-Token"
+//                value = System.getenv("CI_TOKEN")
+//            }
+//            authentication {
+//                header(HttpHeaderAuthentication)
+//            }
+//        }
+//    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework:spring-webmvc:6.1.14'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.4.5'
+
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
