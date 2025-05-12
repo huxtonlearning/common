@@ -71,7 +71,6 @@ public class ElkServiceImpl implements ElkService {
     logExceptionData.setDescription(exceptionResponse.getMessage());
     logExceptionData.setTimestamp(exceptionResponse.getTimestamp());
     logExceptionData.setParams(request.getParameterMap());
-    //        logExceptionData.setBody(getBody(request, response));
     logExceptionData.setHeaders(getHeaderMap(request));
     logExceptionData.setPath(exceptionResponse.getPath());
     logExceptionData.setMessage(exceptionResponse.getMessage());
@@ -79,7 +78,7 @@ public class ElkServiceImpl implements ElkService {
     logExceptionData.setStatus(exceptionResponse.getStatus());
     logExceptionData.setType(LogType.EXCEPTION);
     logExceptionData.setCreatedAt(LocalDateTime.now());
-    log.info(JsonParserUtils.toJson(logExceptionData));
+    log.error(JsonParserUtils.toJson(logExceptionData));
   }
 
   @Override
@@ -117,8 +116,6 @@ public class ElkServiceImpl implements ElkService {
     logRequestData.setHeader(headers);
     logRequestData.setType(LogType.REQUEST);
     logRequestData.setCreatedAt(LocalDateTime.now());
-    //    if (headers.get("x-om-user-id") != null)
-    // logRequestData.setUserId(Long.valueOf(headers.get("x-om-user-id")));
     logRequestData.setBody(getBody(request));
     logRequestData.setTimeTaken(timeTaken);
     log.info(JsonParserUtils.toJson(logRequestData));
