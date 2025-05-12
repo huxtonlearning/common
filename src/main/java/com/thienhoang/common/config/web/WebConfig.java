@@ -1,5 +1,6 @@
 package com.thienhoang.common.config.web;
 
+import com.thienhoang.common.config.web.interceptors.InterceptorFactory;
 import com.thienhoang.common.config.web.method.argument.MethodArgumentFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-  private final Interceptor interceptor;
+  private final InterceptorFactory interceptor;
   private final MethodArgumentFactory methodArgument;
 
   @Override
@@ -27,6 +28,8 @@ public class WebConfig implements WebMvcConfigurer {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(interceptor);
+    interceptor
+        .getMethodArgumentList()
+        .forEach(interceptor -> registry.addInterceptor(interceptor).addPathPatterns("/**"));
   }
 }
