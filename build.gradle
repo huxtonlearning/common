@@ -13,29 +13,12 @@ publishing {
             artifactId = 'common' // Replace with your artifact ID
         }
     }
-//    repositories {
-//        maven {
-//            name = "GitLab"
-//            url = uri("https://gitlab.com/api/v4/projects/68737130/packages/maven")
-//            credentials(HttpHeaderCredentials) {
-//                name = "Private-Token"
-//                value = System.getenv("CI_TOKEN")
-//            }
-//            authentication {
-//                header(HttpHeaderAuthentication)
-//            }
-//        }
-//    }
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     implementation 'org.springframework:spring-webmvc:6.1.14'
