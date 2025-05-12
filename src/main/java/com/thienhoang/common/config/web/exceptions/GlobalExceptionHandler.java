@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  // Handle validation
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ErrorResponse> handleValidationErrors(
       MethodArgumentNotValidException ex, HttpServletRequest request) {
@@ -46,6 +47,7 @@ public class GlobalExceptionHandler {
     return ResponseEntity.badRequest().body(response);
   }
 
+  // Handle bussiness error
   @ExceptionHandler(ResponseException.class)
   public ResponseEntity<ErrorResponse> handleBusinessException(
       ResponseException ex, HttpServletRequest request) {
@@ -59,6 +61,7 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(ex.getStatusCode()).body(response);
   }
 
+  // Handle general error
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleGeneralException(
       Exception ex, HttpServletRequest request) {
@@ -72,6 +75,7 @@ public class GlobalExceptionHandler {
     return ResponseEntity.internalServerError().body(response);
   }
 
+  // Handle sort field
   @ExceptionHandler(PropertyReferenceException.class)
   public ResponseEntity<ErrorResponse> handleGeneralException(
       PropertyReferenceException ex, HttpServletRequest request) {

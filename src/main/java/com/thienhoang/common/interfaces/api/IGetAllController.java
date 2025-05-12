@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface IGetAllController<E, RES> {
 
-  default IGetAllService<E, RES> getGetAllService() {
-
-    return null;
-  }
+  IGetAllService<E, RES> getGetAllService();
 
   @GetMapping
   @Parameters({

@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface IDeleteController<E, ID> {
 
-  default IDeleteService<E, ID> getDeleteService() {
-
-    return null;
-  }
+  IDeleteService<E, ID> getDeleteService();
 
   /**
    * Xoá một entity theo ID.

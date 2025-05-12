@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface IGetController<E, ID, RES> {
 
-  default IGetService<E, ID, RES> getGetService() {
-
-    return null;
-  }
+  IGetService<E, ID, RES> getGetService();
 
   /**
    * Lấy thông tin một entity theo ID.

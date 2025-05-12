@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface IUpdateController<E, ID, RES, REQ> {
 
-  default IUpdateService<E, ID, RES, REQ> getUpdateService() {
-
-    return null;
-  }
+  IUpdateService<E, ID, RES, REQ> getUpdateService();
 
   /**
    * Cập nhật một entity theo ID.

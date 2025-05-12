@@ -44,10 +44,17 @@ public interface IUpdateService<E, ID, RES, REQ>
       mappingAuditingHandler.accept(context, entity); // Gọi mapping tùy chỉnh
     }
 
+    entity = getJpaRepository().save(entity);
+
+    if (postHandler != null) {
+      postHandler.accept(context, entity, id, request);
+    }
+
     if (mappingResponseHandler == null) {
       throw new IllegalArgumentException("mappingResponseHandler must not be null");
     }
-    return mappingResponseHandler.apply(context, getJpaRepository().save(entity)); // Lưu lại vào DB
+
+    return mappingResponseHandler.apply(context, entity); // Lưu lại vào DB
   }
 
   /** Cập nhật mặc định nếu không cần validate/mapping riêng. */

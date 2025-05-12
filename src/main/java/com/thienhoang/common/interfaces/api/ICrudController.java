@@ -16,10 +16,7 @@ public interface ICrudController<E, ID, RES, REQ>
         IDeleteController<E, ID>,
         IGetController<E, ID, RES> {
 
-  default ICrudService<E, ID, RES, REQ> getCrudService() {
-
-    return null;
-  }
+  ICrudService<E, ID, RES, REQ> getCrudService();
 
   @Override
   default ICreateService<E, ID, RES, REQ> getCreateService() {

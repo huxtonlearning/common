@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface ICreateController<E, ID, RES, REQ> {
 
-  default ICreateService<E, ID, RES, REQ> getCreateService() {
-
-    return null;
-  }
+  ICreateService<E, ID, RES, REQ> getCreateService();
 
   /**
    * Tạo mới một entity.
