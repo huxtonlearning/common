@@ -39,6 +39,7 @@ public class GlobalExceptionHandler {
     ErrorResponse response = new ErrorResponse();
     response.setTimestamp(LocalDateTime.now());
     response.setStatus(HttpStatus.BAD_REQUEST.value());
+    response.setMessageCode(HttpStatus.BAD_REQUEST.name());
     response.setError(HttpStatus.BAD_REQUEST.getReasonPhrase());
     response.setMessage(CommonErrorMessage.VALIDATION_FAILED.val());
     response.setPath(request.getRequestURI());
@@ -54,6 +55,7 @@ public class GlobalExceptionHandler {
     ErrorResponse response = new ErrorResponse();
     response.setTimestamp(LocalDateTime.now());
     response.setStatus(ex.getStatusCode().value());
+    response.setMessageCode(ex.getStatusCode().name());
     response.setError(HttpStatus.valueOf(ex.getStatusCode().value()).getReasonPhrase());
     response.setMessage(ex.getMessage());
     response.setPath(request.getRequestURI());
@@ -70,6 +72,7 @@ public class GlobalExceptionHandler {
     response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
     response.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
     response.setMessage(CommonErrorMessage.INTERNAL_SERVER.val());
+    response.setMessageCode(HttpStatus.INTERNAL_SERVER_ERROR.name());
     response.setPath(request.getRequestURI());
 
     return ResponseEntity.internalServerError().body(response);
@@ -83,6 +86,7 @@ public class GlobalExceptionHandler {
     response.setTimestamp(LocalDateTime.now());
     response.setStatus(HttpStatus.BAD_REQUEST.value());
     response.setError(HttpStatus.BAD_REQUEST.getReasonPhrase());
+    response.setMessageCode(HttpStatus.BAD_REQUEST.name());
     response.setMessage(
         KeywordReplacer.replaceKeywords(
             CommonErrorMessage.FIELD_CANT_SORT.val(),

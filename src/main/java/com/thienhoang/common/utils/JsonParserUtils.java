@@ -25,4 +25,18 @@ public class JsonParserUtils {
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * Writes specified object as string
+   *
+   * @param object object to write
+   * @return result json
+   */
+  public static String toJson(Object object) {
+    try {
+      return objectMapper.writeValueAsString(object);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

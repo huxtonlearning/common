@@ -1,4 +1,4 @@
-package com.thienhoang.common.config.web.method.argument;
+package com.thienhoang.common.config.web.interceptors;
 
 import java.util.List;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Getter
 @Component
-public class MethodArgument {
+public class InterceptorFactory {
 
-  public final List<IMethodArgument> methodArgumentList;
+  public final List<IInterceptor> methodArgumentList;
 }

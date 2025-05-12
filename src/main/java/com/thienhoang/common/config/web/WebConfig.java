@@ -1,7 +1,6 @@
 package com.thienhoang.common.config.web;
 
-import com.thienhoang.common.config.web.interceptor.Interceptor;
-import com.thienhoang.common.config.web.method.argument.MethodArgument;
+import com.thienhoang.common.config.web.method.argument.MethodArgumentFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
   private final Interceptor interceptor;
-  private final MethodArgument methodArgument;
+  private final MethodArgumentFactory methodArgument;
 
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
