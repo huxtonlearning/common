@@ -1,5 +1,6 @@
 package com.thienhoang.common.interfaces.services;
 
+import com.thienhoang.common.interfaces.persistence.IJpaGetAllPersistence;
 import com.thienhoang.common.models.HeaderContext;
 import com.thienhoang.common.utils.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -13,14 +14,56 @@ import java.util.function.BiFunction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.util.StringUtils;
 
 public interface IGetAllService<E, RES> {
 
-  default JpaSpecificationExecutor<E> getSpecificationExecutor() {
+  IJpaGetAllPersistence<E> getJpaGetAllPersistence();
 
-    return null;
+  @SuppressWarnings("unchecked")
+  default Page<RES> getAll(
+      HeaderContext context,
+      String search,
+      Integer page,
+      Integer pageSize,
+      String sort,
+      String filter,
+      BiFunction<HeaderContext, E, RES> mappingResponseHandler) {
+    Map<String, Object> filterMap = new HashMap<>();
+
+    if (StringUtils.hasLength(filter)) {
+      try {
+        filterMap = JsonParserUtils.entity(filter, Map.class);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    Pageable pageable = PageableUtils.convertPageable(page, pageSize, sort);
+
+    Specification<E> query = buildQuery(context, search, filterMap);
+    Page<E> data = getJpaGetAllPersistence().getAll(query, pageable);
+
+    return data.map(item -> mappingResponseHandler.apply(context, item));
+  }
+
+  default Page<RES> getAll(
+      HeaderContext context,
+      String search,
+      Integer page,
+      Integer pageSize,
+      String sort,
+      String filter) {
+
+    return getAll(context, search, page, pageSize, sort, filter, this::mappingPageResponse);
+  }
+
+  default RES mappingPageResponse(HeaderContext context, E item) {
+    RES resItem = GenericTypeUtils.getNewInstance(this);
+
+    FnCommon.copyProperties(resItem, item);
+
+    return resItem;
   }
 
   default Specification<E> buildQuery(
@@ -139,51 +182,5 @@ public interface IGetAllService<E, RES> {
     }
 
     return searchPredicates;
-  }
-
-  @SuppressWarnings("unchecked")
-  default Page<RES> getAll(
-      HeaderContext context,
-      String search,
-      Integer page,
-      Integer pageSize,
-      String sort,
-      String filter,
-      BiFunction<HeaderContext, E, RES> mappingResponseHandler) {
-    Map<String, Object> filterMap = new HashMap<>();
-
-    if (StringUtils.hasLength(filter)) {
-      try {
-        filterMap = JsonParserUtils.entity(filter, Map.class);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
-
-    Pageable pageable = PageableUtils.convertPageable(page, pageSize, sort);
-
-    Page<E> data =
-        getSpecificationExecutor().findAll(buildQuery(context, search, filterMap), pageable);
-
-    return data.map(item -> mappingResponseHandler.apply(context, item));
-  }
-
-  default Page<RES> getAll(
-      HeaderContext context,
-      String search,
-      Integer page,
-      Integer pageSize,
-      String sort,
-      String filter) {
-
-    return getAll(context, search, page, pageSize, sort, filter, this::mappingPageResponse);
-  }
-
-  default RES mappingPageResponse(HeaderContext context, E item) {
-    RES resItem = GenericTypeUtils.getNewInstance(this);
-
-    FnCommon.copyProperties(resItem, item);
-
-    return resItem;
   }
 }

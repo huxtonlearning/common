@@ -3,8 +3,10 @@ package com.thienhoang.common.utils;
 import java.lang.reflect.*;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 
+@Slf4j
 public class GenericTypeUtils {
 
   public static <T> void updateData(T target, String fieldName, Object value) {
@@ -37,7 +39,7 @@ public class GenericTypeUtils {
       }
 
       // Log để debug
-      System.out.println("Đã phát hiện entity class: " + entityClass.getName());
+      log.debug("Đã phát hiện entity class: " + entityClass.getName());
 
       // Tạo instance mới thông qua constructor không tham số
       return entityClass.getDeclaredConstructor().newInstance();
@@ -71,14 +73,14 @@ public class GenericTypeUtils {
     Class<?> targetInterface = findTargetInterface(implementationClass);
 
     if (targetInterface == null) {
-      System.out.println("WARNING: Không tìm thấy target interface có generic type E");
+      log.debug("WARNING: Không tìm thấy target interface có generic type E");
       return null;
     }
 
     // Lấy TypeVariable đại diện cho E trong target interface
     TypeVariable<?>[] typeParams = targetInterface.getTypeParameters();
     if (typeParams.length == 0) {
-      System.out.println("WARNING: Target interface không có type parameters");
+      log.debug("WARNING: Target interface không có type parameters");
       return null;
     }
 
@@ -91,7 +93,7 @@ public class GenericTypeUtils {
     Type actualType = typeVariableMap.get(entityTypeVar);
 
     if (actualType == null) {
-      System.out.println("WARNING: Không thể ánh xạ TypeVariable đến actual type");
+      log.debug("WARNING: Không thể ánh xạ TypeVariable đến actual type");
       // Thử phương pháp khác nếu phương pháp trên thất bại
       return findEntityClassFallback(implementationClass, targetInterface);
     }
@@ -124,7 +126,7 @@ public class GenericTypeUtils {
         if (paramType.getRawType().equals(targetInterface)) {
           Type[] typeArgs = paramType.getActualTypeArguments();
           if (typeArgs.length > 0 && typeArgs[0] instanceof Class) {
-            System.out.println(
+            log.debug(
                 "Đã tìm thấy entity class thông qua fallback: "
                     + ((Class<?>) typeArgs[0]).getName());
             return (Class<T>) typeArgs[0];
@@ -154,7 +156,7 @@ public class GenericTypeUtils {
         if (paramType.getRawType().equals(targetInterface)) {
           Type[] typeArgs = paramType.getActualTypeArguments();
           if (typeArgs.length > 0 && typeArgs[0] instanceof Class) {
-            System.out.println(
+            log.debug(
                 "Đã tìm thấy entity class trong superclass: " + ((Class<?>) typeArgs[0]).getName());
             return (Class<T>) typeArgs[0];
           }
@@ -250,7 +252,7 @@ public class GenericTypeUtils {
 
         // Kiểm tra xem interface có ít nhất một type parameter không
         if (iface.getTypeParameters().length > 0) {
-          System.out.println("Đã tìm thấy target interface: " + iface.getName());
+          log.debug("Đã tìm thấy target interface: " + iface.getName());
           return iface;
         }
       }

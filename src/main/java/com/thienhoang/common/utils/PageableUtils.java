@@ -36,8 +36,8 @@ public class PageableUtils {
                 })
             .collect(Collectors.toList());
 
-    int page = NumberUtils.parseInt(pageStr, 0);
-    int size = NumberUtils.parseInt(sizeStr, 20);
+    int page = NumberUtils.parseInt(String.valueOf(pageStr), 0);
+    int size = NumberUtils.parseInt(String.valueOf(sizeStr), 20);
     //    size = Math.min(size, properties.getMaxPageSize());
 
     return convertPageable(page, size, orders);

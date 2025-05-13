@@ -13,7 +13,7 @@ public interface IDeleteService<E, ID> extends IGetEntityService<E, ID> {
     if (validationHandler != null) {
       validationHandler.accept(context, id, entity); // Kiểm tra hợp lệ trước khi xóa
     }
-    getJpaRepository().delete(entity); // Xóa khỏi DB
+    getCrudPersistence().delete(entity); // Xóa khỏi DB
   }
 
   /** Hàm xóa mặc định không cần validate riêng. */

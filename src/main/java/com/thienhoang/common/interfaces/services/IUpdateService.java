@@ -1,16 +1,13 @@
 package com.thienhoang.common.interfaces.services;
 
-import com.thienhoang.common.interfaces.repositories.IJpaRepositoryProvider;
 import com.thienhoang.common.models.HeaderContext;
 import com.thienhoang.common.utils.FnCommon;
-import com.thienhoang.common.utils.GenericTypeUtils;
 import com.thienhoang.common.utils.functions.QuadConsumer;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import org.apache.logging.log4j.util.TriConsumer;
 
 public interface IUpdateService<E, ID, RES, REQ>
-    extends IJpaRepositoryProvider<E, ID>, IResponseMapper<E, RES>, IGetEntityService<E, ID> {
+    extends IResponseMapper<E, RES>, IGetEntityService<E, ID> {
   /**
    * Cập nhật entity hiện có theo ID, có validate và mapping tuỳ chỉnh.
    *
@@ -27,7 +24,6 @@ public interface IUpdateService<E, ID, RES, REQ>
       REQ request,
       QuadConsumer<HeaderContext, ID, E, REQ> validationHandler,
       TriConsumer<HeaderContext, E, REQ> mappingHandler,
-      BiConsumer<HeaderContext, E> mappingAuditingHandler,
       QuadConsumer<HeaderContext, E, ID, REQ> postHandler,
       BiFunction<HeaderContext, E, RES> mappingResponseHandler) {
     E entity = getEntityById(context, id); // Lấy entity từ DB, nếu không có thì ném lỗi 404
@@ -40,11 +36,7 @@ public interface IUpdateService<E, ID, RES, REQ>
       mappingHandler.accept(context, entity, request); // Gọi hàm mapping tùy chỉnh
     }
 
-    if (mappingAuditingHandler != null) {
-      mappingAuditingHandler.accept(context, entity); // Gọi mapping tùy chỉnh
-    }
-
-    entity = getJpaRepository().save(entity);
+    entity = (E) getCrudPersistence().update(context, id, entity);
 
     if (postHandler != null) {
       postHandler.accept(context, entity, id, request);
@@ -65,7 +57,6 @@ public interface IUpdateService<E, ID, RES, REQ>
         request,
         this::validateUpdateRequest,
         this::mappingUpdateEntity,
-        this::mappingUpdateAuditingEntity,
         this::postHandler,
         this::mappingResponse);
   }
@@ -76,12 +67,6 @@ public interface IUpdateService<E, ID, RES, REQ>
   // Mapping mặc định khi update
   default void mappingUpdateEntity(HeaderContext context, E entity, REQ request) {
     FnCommon.copyProperties(entity, request); // Gán dữ liệu chung từ request
-  }
-
-  default void mappingUpdateAuditingEntity(HeaderContext context, E entity) {
-    if (context != null) {
-      GenericTypeUtils.updateData(entity, "modifierId", context.getUserId());
-    }
   }
 
   default void postHandler(HeaderContext context, E entity, ID id, REQ request) {}

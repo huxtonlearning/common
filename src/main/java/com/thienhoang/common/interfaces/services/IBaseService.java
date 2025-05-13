@@ -1,20 +1,15 @@
 package com.thienhoang.common.interfaces.services;
 
-import com.thienhoang.common.interfaces.repositories.IBaseRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.thienhoang.common.interfaces.persistence.IBasePersistence;
+import com.thienhoang.common.interfaces.persistence.ICrudPersistence;
 
 public interface IBaseService<E, ID, RES, REQ>
     extends ICrudService<E, ID, RES, REQ>, IGetAllService<E, RES> {
-  IBaseRepository<E, ID> getRepository();
+
+  IBasePersistence getPersistence();
 
   @Override
-  default JpaRepository<E, ID> getJpaRepository() {
-    return getRepository();
-  }
-
-  @Override
-  default JpaSpecificationExecutor<E> getSpecificationExecutor() {
-    return getRepository();
+  default ICrudPersistence getCrudPersistence() {
+    return getPersistence();
   }
 }

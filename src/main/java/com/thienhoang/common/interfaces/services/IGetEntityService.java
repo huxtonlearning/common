@@ -1,15 +1,11 @@
 package com.thienhoang.common.interfaces.services;
 
-import com.thienhoang.common.interfaces.repositories.IJpaRepositoryProvider;
+import com.thienhoang.common.interfaces.persistence.IPersistenceProvider;
 import com.thienhoang.common.models.HeaderContext;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
-public interface IGetEntityService<E, ID> extends IJpaRepositoryProvider<E, ID> {
+public interface IGetEntityService<E, ID> extends IPersistenceProvider<E, ID> {
   /** Tìm entity theo ID, ném lỗi 404 nếu không tìm thấy. */
   default E getEntityById(HeaderContext context, ID id) {
-    return getJpaRepository()
-        .findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found"));
+    return getCrudPersistence().getById(id);
   }
 }

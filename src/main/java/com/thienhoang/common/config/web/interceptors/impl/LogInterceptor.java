@@ -15,8 +15,8 @@ public class LogInterceptor implements IInterceptor {
   private final ElkService elkService;
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-      throws Exception {
+  public boolean preHandle(
+      HttpServletRequest request, HttpServletResponse response, Object handler) {
     long startTime = System.currentTimeMillis();
     request.setAttribute("startTime", startTime);
     return true; // Proceed with the execution chain  }
